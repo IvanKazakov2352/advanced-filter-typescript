@@ -9,6 +9,73 @@ describe("Filter", () => {
     filter = new Filter<User>();
   });
 
+  describe('methods', () => {
+    test("filter method exists", () => {
+      expect(filter.filter).toBeDefined();
+      expect(typeof filter.filter).toBe("function");
+    });
+
+    test("eq method exists", () => {
+      expect(FilterBuilder.eq).toBeDefined();
+      expect(typeof FilterBuilder.eq).toBe("function");
+    });
+
+    test("not method exists", () => {
+      expect(FilterBuilder.not).toBeDefined();
+      expect(typeof FilterBuilder.not).toBe("function");
+    });
+
+    test("and method exists", () => {
+      expect(FilterBuilder.and).toBeDefined();
+      expect(typeof FilterBuilder.and).toBe("function");
+    });
+
+    test("field method exists", () => {
+      expect(FilterBuilder.field).toBeDefined();
+      expect(typeof FilterBuilder.field).toBe("function");
+    });
+
+    test("gt method exists", () => {
+      expect(FilterBuilder.gt).toBeDefined();
+      expect(typeof FilterBuilder.gt).toBe("function");
+    });
+
+    test("gte method exists", () => {
+      expect(FilterBuilder.gte).toBeDefined();
+      expect(typeof FilterBuilder.gte).toBe("function");
+    });
+
+    test("ilike method exists", () => {
+      expect(FilterBuilder.ilike).toBeDefined();
+      expect(typeof FilterBuilder.ilike).toBe("function");
+    });
+
+    test("in method exists", () => {
+      expect(FilterBuilder.in).toBeDefined();
+      expect(typeof FilterBuilder.in).toBe("function");
+    });
+
+    test("like method exists", () => {
+      expect(FilterBuilder.like).toBeDefined();
+      expect(typeof FilterBuilder.like).toBe("function");
+    });
+
+    test("lt method exists", () => {
+      expect(FilterBuilder.lt).toBeDefined();
+      expect(typeof FilterBuilder.lt).toBe("function");
+    });
+
+    test("lte method exists", () => {
+      expect(FilterBuilder.lte).toBeDefined();
+      expect(typeof FilterBuilder.lte).toBe("function");
+    });
+
+    test("nin method exists", () => {
+      expect(FilterBuilder.nin).toBeDefined();
+      expect(typeof FilterBuilder.nin).toBe("function");
+    });
+  })
+
   describe('Базовые операторы сравнения', () => {
     test('eq - равно', () => {
       const result = filter.filter(mockUsers, {

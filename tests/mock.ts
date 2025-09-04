@@ -15,3 +15,17 @@ export const mockUsers: User[] = [
   { id: 4, name: 'Alice Brown', age: 28, email: 'alice@example.com', isActive: true, roles: ['admin'], createdAt: new Date('2023-04-01') },
   { id: 5, name: 'Charlie Wilson', age: 40, email: 'charlie@example.com', isActive: false, roles: ['user', 'guest'], createdAt: new Date('2023-05-01') }
 ];
+
+export function* generateLargeUserDataset(count: number): Generator<User> {
+  for (let i = 0; i < count; i++) {
+    yield {
+      id: i + 1,
+      name: `User ${i + 1}`,
+      age: Math.floor(Math.random() * 50) + 18,
+      email: `user${i + 1}@example.com`,
+      isActive: Math.random() > 0.3,
+      roles: Math.random() > 0.5 ? ['admin', 'user'] : ['user'],
+      createdAt: new Date()
+    };
+  }
+}
