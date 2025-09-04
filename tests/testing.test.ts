@@ -19,9 +19,9 @@ describe("Filter", () => {
       expect(result[0].name).toBe('John Doe');
     });
 
-    test('ne - не равно', () => {
+    test('not - не равно', () => {
       const result = filter.filter(mockUsers, {
-        where: FilterBuilder.field('age', 'ne', 30)
+        where: FilterBuilder.field('age', 'not', 30)
       });
 
       expect(result).toHaveLength(4);

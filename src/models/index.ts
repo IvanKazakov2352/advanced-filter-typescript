@@ -1,6 +1,6 @@
 export type ComparisonOperator =
   | "eq" // равно
-  | "ne" // не равно
+  | "not" // не равно
   | "gt" // больше
   | "gte" // больше или равно
   | "lt" // меньше
@@ -24,15 +24,10 @@ export interface OrCondition<T> {
   or: Array<FilterCondition<T>>;
 }
 
-export interface NotCondition<T> {
-  not: FilterCondition<T>;
-}
-
 export type FilterCondition<T> =
   | FieldCondition<T>
   | AndCondition<T>
-  | OrCondition<T>
-  | NotCondition<T>;
+  | OrCondition<T>;
 
 export interface AdvancedFilter<T> {
   where?: FilterCondition<T>;

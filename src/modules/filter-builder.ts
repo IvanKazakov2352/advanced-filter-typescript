@@ -3,7 +3,6 @@ import {
   ComparisonOperator,
   FieldCondition,
   FilterCondition,
-  NotCondition,
   OrCondition,
 } from "../models";
 
@@ -26,15 +25,11 @@ export const FilterBuilder = {
     or: conditions,
   }),
 
-  not: <T>(condition: FilterCondition<T>): NotCondition<T> => ({
-    not: condition,
-  }),
-
   eq: <T>(field: keyof T, value: any): FieldCondition<T> =>
     FilterBuilder.field(field, "eq", value),
 
-  ne: <T>(field: keyof T, value: any): FieldCondition<T> =>
-    FilterBuilder.field(field, "ne", value),
+  not: <T>(field: keyof T, value: any): FieldCondition<T> =>
+    FilterBuilder.field(field, "not", value),
 
   gt: <T>(field: keyof T, value: any): FieldCondition<T> =>
     FilterBuilder.field(field, "gt", value),
@@ -54,9 +49,9 @@ export const FilterBuilder = {
   nin: <T>(field: keyof T, values: any[]): FieldCondition<T> =>
     FilterBuilder.field(field, "nin", values),
 
-  like: <T>(field: keyof T, values: any[]): FieldCondition<T> =>
-    FilterBuilder.field(field, "like", values),
+  like: <T>(field: keyof T, value: any): FieldCondition<T> =>
+    FilterBuilder.field(field, "like", value),
 
-  ilike: <T>(field: keyof T, values: any[]): FieldCondition<T> =>
-    FilterBuilder.field(field, "ilike", values),
+  ilike: <T>(field: keyof T, value: any): FieldCondition<T> =>
+    FilterBuilder.field(field, "ilike", value),
 };

@@ -8,7 +8,7 @@ import {
 export class Filter<T> {
   private operators: Record<ComparisonOperator, (a: any, b: any) => boolean> = {
     eq: (a, b) => a === b,
-    ne: (a, b) => a !== b,
+    not: (a, b) => a !== b,
     gt: (a, b) => a > b,
     gte: (a, b) => a >= b,
     lt: (a, b) => a < b,
@@ -62,10 +62,6 @@ export class Filter<T> {
       return condition.or.some((subCondition) =>
         this.evaluateCondition(item, subCondition)
       );
-    }
-
-    if ("not" in condition) {
-      return !this.evaluateCondition(item, condition.not);
     }
 
     return false;
