@@ -13,7 +13,7 @@ export type ComparisonOperator =
 export interface FieldCondition<T> {
   field: keyof T;
   operator: ComparisonOperator;
-  value: any;
+  value: T[keyof T];
 }
 
 export interface AndCondition<T> {

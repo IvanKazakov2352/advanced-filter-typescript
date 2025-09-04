@@ -10,7 +10,7 @@ export const FilterBuilder = {
   field: <T>(
     field: keyof T,
     operator: ComparisonOperator,
-    value: any
+    value: T[keyof T]
   ): FieldCondition<T> => ({
     field,
     operator,
@@ -25,33 +25,33 @@ export const FilterBuilder = {
     or: conditions,
   }),
 
-  eq: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  eq: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "eq", value),
 
-  not: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  not: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "not", value),
 
-  gt: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  gt: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "gt", value),
 
-  gte: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  gte: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "gte", value),
 
-  lt: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  lt: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "lt", value),
 
-  lte: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  lte: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "lte", value),
 
-  in: <T>(field: keyof T, values: any[]): FieldCondition<T> =>
-    FilterBuilder.field(field, "in", values),
+  in: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
+    FilterBuilder.field(field, "in", value),
 
-  nin: <T>(field: keyof T, values: any[]): FieldCondition<T> =>
-    FilterBuilder.field(field, "nin", values),
+  nin: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
+    FilterBuilder.field(field, "nin", value),
 
-  like: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  like: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "like", value),
 
-  ilike: <T>(field: keyof T, value: any): FieldCondition<T> =>
+  ilike: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
     FilterBuilder.field(field, "ilike", value),
 };
