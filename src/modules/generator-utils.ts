@@ -22,8 +22,4 @@ export class GeneratorUtils {
       yield item;
     }
   }
-
-  public static *fromIterable<T>(iterable: Iterable<T>): Generator<T> {
-    yield* iterable;
-  }
 }

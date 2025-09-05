@@ -167,4 +167,121 @@ describe("Filter", () => {
       expect(result[0].name).toBe('Bob Johnson');
     });
   })
+
+  describe('Логические операции', () => {
+    test('AND - логическое И', () => {
+      const result = filter.filter(mockUsers, {
+        where: FilterBuilder.and(
+          FilterBuilder.field('age', 'gte', 30),
+          FilterBuilder.field('isActive', 'eq', true)
+        )
+      });
+
+      expect(result).toHaveLength(2);
+      expect(result.every(user => user.age >= 30 && user.isActive)).toBe(true);
+    });
+
+    test('OR - логическое ИЛИ', () => {
+      const result = filter.filter(mockUsers, {
+        where: FilterBuilder.or(
+          FilterBuilder.field('age', 'lt', 30),
+          FilterBuilder.field('isActive', 'eq', false)
+        )
+      });
+
+      expect(result).toHaveLength(3);
+      expect(result.some(user => user.age < 30 || !user.isActive)).toBe(true);
+    });
+  });
+
+  describe('Сортировка', () => {
+    test('Сортировка по одному полю (asc)', () => {
+      const result = filter.filter(mockUsers, {
+        orderBy: [{ field: 'age', direction: 'asc' }]
+      });
+
+      expect(result[0].age).toBe(25);
+      expect(result[1].age).toBe(28);
+      expect(result[4].age).toBe(40);
+    });
+
+    test('Сортировка по одному полю (desc)', () => {
+      const result = filter.filter(mockUsers, {
+        orderBy: [{ field: 'age', direction: 'desc' }]
+      });
+
+      expect(result[0].age).toBe(40);
+      expect(result[1].age).toBe(35);
+      expect(result[4].age).toBe(25);
+    });
+
+    test('Сортировка по нескольким полям', () => {
+      const result = filter.filter(mockUsers, {
+        where: FilterBuilder.field('isActive', 'eq', true),
+        orderBy: [
+          { field: 'age', direction: 'desc' },
+          { field: 'name', direction: 'asc' }
+        ]
+      });
+
+      expect(result[0].name).toBe('Bob Johnson');
+      expect(result[1].name).toBe('John Doe');
+      expect(result[2].name).toBe('Alice Brown');
+    });
+  });
+
+  describe('Пагинация', () => {
+    test('Limit - ограничение количества', () => {
+      const result = filter.filter(mockUsers, {
+        orderBy: [{ field: 'id', direction: 'asc' }],
+        limit: 2
+      });
+
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe(1);
+      expect(result[1].id).toBe(2);
+    });
+
+    test('Offset - пропуск элементов', () => {
+      const result = filter.filter(mockUsers, {
+        orderBy: [{ field: 'id', direction: 'asc' }],
+        offset: 2
+      });
+
+      expect(result).toHaveLength(3);
+      expect(result[0].id).toBe(3);
+      expect(result[2].id).toBe(5);
+    });
+
+    test('Limit + Offset - пагинация', () => {
+      const result = filter.filter(mockUsers, {
+        orderBy: [{ field: 'id', direction: 'asc' }],
+        limit: 2,
+        offset: 1
+      });
+
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe(2);
+      expect(result[1].id).toBe(3);
+    });
+  });
+
+  describe('Edge Cases', () => {
+    test('Пустой массив на входе', () => {
+      const result = filter.filter([], {
+        where: FilterBuilder.eq('age', 30)
+      });
+
+      expect(result).toHaveLength(0);
+    });
+
+    test('Даты корректно сравниваются', () => {
+      const result = filter.filter(mockUsers, {
+        where: FilterBuilder.field('createdAt', 'gt', new Date('2023-02-01'))
+      });
+
+      expect(result).toHaveLength(3);
+      expect(result.every(user => user.createdAt > new Date('2023-02-01'))).toBe(true);
+    });
+  });
 });
