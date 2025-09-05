@@ -1,10 +1,19 @@
 {
   "name": "advanced-filter-typescript",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/main.mjs",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/main.d.mts",
+      "import": "./dist/main.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsdown",
