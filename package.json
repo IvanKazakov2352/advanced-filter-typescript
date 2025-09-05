@@ -1,5 +1,5 @@
 {
-  "name": "advanced-filter",
+  "name": "advanced-filter-typescript",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.mjs",
