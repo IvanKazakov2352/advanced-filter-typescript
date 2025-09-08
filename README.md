@@ -30,7 +30,7 @@ yarn run test
 bun test
 ```
 
-## Usage
+## Data
 ```typescript
 export interface User {
   id: number;
@@ -51,6 +51,7 @@ const mockUsers: User[] = [
 ];
 ```
 
+## Example 1
 ```typescript
 // Example 1
 const filter = new Filter<User>();
@@ -62,6 +63,7 @@ const result = filter.filter(mockUsers, {
 console.log(result)
 ```
 
+## Example 2
 ```typescript
 // Example 2
 const filter = new Filter<User>();
@@ -73,6 +75,7 @@ const result = filter.filter(mockUsers, {
 console.log(result)
 ```
 
+## Example 3
 ```typescript
 // Example 3
 const filter = new Filter<User>();
@@ -89,6 +92,7 @@ const result = filter.filter(mockUsers, {
 console.log(result)
 ```
 
+## Example 4
 ```typescript
 // Example 4
 const filter = new Filter<User>();
