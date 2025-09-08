@@ -6,52 +6,43 @@ import {
   OrCondition,
 } from "../models";
 
-export const FilterBuilder = {
-  field: <T>(
-    field: keyof T,
+export class FilterBuilder {
+  public static field = <T, K extends keyof T>(
+    field: K,
     operator: ComparisonOperator,
-    value: T[keyof T]
-  ): FieldCondition<T> => ({
-    field,
-    operator,
-    value,
-  }),
+    value: T[K]
+  ): FieldCondition<T> => ({ field, operator, value })
 
-  and: <T>(...conditions: FilterCondition<T>[]): AndCondition<T> => ({
-    and: conditions,
-  }),
+  public static and = <T>(...conditions: FilterCondition<T>[]): AndCondition<T> => ({ and: conditions })
+  public static or = <T>(...conditions: FilterCondition<T>[]): OrCondition<T> => ({ or: conditions })
 
-  or: <T>(...conditions: FilterCondition<T>[]): OrCondition<T> => ({
-    or: conditions,
-  }),
+  public static eq = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "eq", value)
 
-  eq: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "eq", value),
+  public static not = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "not", value)
 
-  not: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "not", value),
+  public static gt = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "gt", value)
 
-  gt: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "gt", value),
+  public static gte = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "gte", value)
 
-  gte: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "gte", value),
+  public static lt = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "lt", value)
 
-  lt: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "lt", value),
+  public static lte = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "lte", value)
 
-  lte: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "lte", value),
+  public static in = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "in", value)
 
-  in: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "in", value),
+  public static nin = <T, K extends keyof T>(field: K, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "nin", value)
 
-  nin: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "nin", value),
+  public static like = <T, K extends keyof T>(field: keyof T, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "like", value)
 
-  like: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "like", value),
-
-  ilike: <T>(field: keyof T, value: T[keyof T]): FieldCondition<T> =>
-    FilterBuilder.field(field, "ilike", value),
-};
+  public static ilike = <T, K extends keyof T>(field: keyof T, value: T[K]): FieldCondition<T> =>
+    FilterBuilder.field(field, "ilike", value)
+}

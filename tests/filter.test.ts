@@ -76,8 +76,8 @@ describe("Filter", () => {
     });
   })
 
-  describe('Базовые операторы сравнения', () => {
-    test('eq - равно', () => {
+  describe('Basic Comparison Operators', () => {
+    test('eq - equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.eq('age', 30)
       });
@@ -86,7 +86,7 @@ describe("Filter", () => {
       expect(result[0].name).toBe('John Doe');
     });
 
-    test('not - не равно', () => {
+    test('not - not equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'not', 30)
       });
@@ -95,7 +95,7 @@ describe("Filter", () => {
       expect(result.some(user => user.age === 30)).toBe(false);
     });
 
-    test('gt - больше', () => {
+    test('gt - more', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'gt', 30)
       });
@@ -104,7 +104,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age > 30)).toBe(true);
     });
 
-    test('gte - больше или равно', () => {
+    test('gte - greater than or equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'gte', 30)
       });
@@ -113,7 +113,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age >= 30)).toBe(true);
     });
 
-    test('lt - меньше', () => {
+    test('lt - less', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'lt', 30)
       });
@@ -122,7 +122,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age < 30)).toBe(true);
     });
 
-    test('lte - меньше или равно', () => {
+    test('lte - less than or equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'lte', 30)
       });
@@ -131,25 +131,25 @@ describe("Filter", () => {
       expect(result.every(user => user.age <= 30)).toBe(true);
     });
 
-    test('in - в массиве', () => {
+    test('in - in an array', () => {
       const result = filter.filter(mockUsers, {
-        where: FilterBuilder.field('roles', 'in', 'admin')
+        where: FilterBuilder.field('roles', 'in', ['admin'])
       });
 
       expect(result).toHaveLength(2);
       expect(result.every(user => user.roles.includes('admin'))).toBe(true);
     });
 
-    test('nin - не в массиве', () => {
+    test('nin - not in array', () => {
       const result = filter.filter(mockUsers, {
-        where: FilterBuilder.field('roles', 'nin', 'admin')
+        where: FilterBuilder.field('roles', 'nin', ['admin'])
       });
 
       expect(result).toHaveLength(3);
       expect(result.every(user => !user.roles.includes('admin'))).toBe(true);
     });
 
-    test('like - похоже (регистрозависимый)', () => {
+    test('like - similar (case-sensitive)', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('name', 'like', 'John')
       });
@@ -158,7 +158,7 @@ describe("Filter", () => {
       expect(result[0].name).toBe('John Doe');
     });
 
-    test('ilike - похоже (регистронезависимый)', () => {
+    test('ilike - similar (case-insensitive)', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('name', 'ilike', 'bob')
       });
@@ -168,8 +168,8 @@ describe("Filter", () => {
     });
   })
 
-  describe('Логические операции', () => {
-    test('AND - логическое И', () => {
+  describe('Logical operations', () => {
+    test('and - logical and', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.and(
           FilterBuilder.field('age', 'gte', 30),
@@ -181,7 +181,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age >= 30 && user.isActive)).toBe(true);
     });
 
-    test('OR - логическое ИЛИ', () => {
+    test('or - logical or', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.or(
           FilterBuilder.field('age', 'lt', 30),
@@ -194,8 +194,8 @@ describe("Filter", () => {
     });
   });
 
-  describe('Сортировка', () => {
-    test('Сортировка по одному полю (asc)', () => {
+  describe('Sorting', () => {
+    test('Sorting by one field (asc)', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'age', direction: 'asc' }]
       });
@@ -205,7 +205,7 @@ describe("Filter", () => {
       expect(result[4].age).toBe(40);
     });
 
-    test('Сортировка по одному полю (desc)', () => {
+    test('Sorting by one field (desc)', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'age', direction: 'desc' }]
       });
@@ -215,7 +215,7 @@ describe("Filter", () => {
       expect(result[4].age).toBe(25);
     });
 
-    test('Сортировка по нескольким полям', () => {
+    test('Sorting by multiple fields', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('isActive', 'eq', true),
         orderBy: [
@@ -230,8 +230,8 @@ describe("Filter", () => {
     });
   });
 
-  describe('Пагинация', () => {
-    test('Limit - ограничение количества', () => {
+  describe('Pagination', () => {
+    test('Limit - quantity limitation', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         limit: 2
@@ -242,7 +242,7 @@ describe("Filter", () => {
       expect(result[1].id).toBe(2);
     });
 
-    test('Offset - пропуск элементов', () => {
+    test('Offset - skipping elements', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         offset: 2
@@ -253,7 +253,7 @@ describe("Filter", () => {
       expect(result[2].id).toBe(5);
     });
 
-    test('Limit + Offset - пагинация', () => {
+    test('Limit + Offset - pagination', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         limit: 2,
@@ -267,7 +267,7 @@ describe("Filter", () => {
   });
 
   describe('Edge Cases', () => {
-    test('Пустой массив на входе', () => {
+    test('Empty array on input', () => {
       const result = filter.filter([], {
         where: FilterBuilder.eq('age', 30)
       });
@@ -275,7 +275,7 @@ describe("Filter", () => {
       expect(result).toHaveLength(0);
     });
 
-    test('Даты корректно сравниваются', () => {
+    test('Dates are compared correctly', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('createdAt', 'gt', new Date('2023-02-01'))
       });

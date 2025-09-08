@@ -3,10 +3,11 @@ import {
   ComparisonOperator,
   FieldCondition,
   FilterCondition,
+  IFilter,
   operators,
 } from "../models";
 
-export class Filter<T> {
+export class Filter<T> implements IFilter<T> {
   private operators: Record<ComparisonOperator, (a: any, b: any) => boolean> = operators
 
   public filter(items: T[], filterConfig: AdvancedFilter<T>): T[] {

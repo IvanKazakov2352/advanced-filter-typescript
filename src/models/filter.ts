@@ -25,3 +25,7 @@ export interface AdvancedFilter<T> {
   limit?: number;
   offset?: number;
 }
+
+export interface IFilter<T> {
+  filter(items: T[], filterConfig: AdvancedFilter<T>): T[];
+}

@@ -1,6 +1,6 @@
 {
   "name": "advanced-filter-typescript",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "./dist/main.mjs",
   "module": "./dist/main.mjs",
@@ -19,17 +19,23 @@
     "build": "tsdown",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IvanKazakov2352/advanced-filter-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IvanKazakov2352/advanced-filter-typescript/issues"
+  },
   "author": "Ivan Kazakov <ivankazakov3344@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.5",
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.9",
-    "rimraf": "^6.0.1",
-    "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "tsdown": "^0.14.2",
-    "typescript": "^5.7.3"
+    "@types/jest": "29.5.14",
+    "@types/node": "22.10.5",
+    "jest": "29.7.0",
+    "nodemon": "3.1.9",
+    "ts-jest": "29.2.5",
+    "ts-node": "10.9.2",
+    "tsdown": "0.14.2",
+    "typescript": "5.7.3"
   }
 }
