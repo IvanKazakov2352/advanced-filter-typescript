@@ -19,3 +19,13 @@ yarn add advanced-filter-typescript
 # or
 bun add advanced-filter-typescript
 ```
+
+## Run tests
+
+```bash
+npm run test
+# or
+yarn run test
+# or
+bun test
+```
