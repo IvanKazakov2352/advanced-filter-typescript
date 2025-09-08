@@ -1,6 +1,6 @@
 {
   "name": "advanced-filter-typescript",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "main": "./dist/main.mjs",
   "module": "./dist/main.mjs",
@@ -26,6 +26,14 @@
   "bugs": {
     "url": "https://github.com/IvanKazakov2352/advanced-filter-typescript/issues"
   },
+  "keywords": [
+    "JavaScript",
+    "TypeScript",
+    "Filter",
+    "Object filter",
+    "TS Filter",
+    "JS Filter"
+  ],
   "author": "Ivan Kazakov <ivankazakov3344@gmail.com>",
   "license": "MIT",
   "devDependencies": {
