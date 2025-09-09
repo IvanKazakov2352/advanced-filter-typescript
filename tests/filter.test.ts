@@ -77,7 +77,7 @@ describe("Filter", () => {
   })
 
   describe('Basic Comparison Operators', () => {
-    test('eq - equal', () => {
+    test('should using eq - equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.eq('age', 30)
       });
@@ -86,7 +86,7 @@ describe("Filter", () => {
       expect(result[0].name).toBe('John Doe');
     });
 
-    test('not - not equal', () => {
+    test('should using not - not equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'not', 30)
       });
@@ -95,7 +95,7 @@ describe("Filter", () => {
       expect(result.some(user => user.age === 30)).toBe(false);
     });
 
-    test('gt - more', () => {
+    test('should using gt - more', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'gt', 30)
       });
@@ -104,7 +104,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age > 30)).toBe(true);
     });
 
-    test('gte - greater than or equal', () => {
+    test('should using gte - greater than or equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'gte', 30)
       });
@@ -113,7 +113,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age >= 30)).toBe(true);
     });
 
-    test('lt - less', () => {
+    test('should using lt - less', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'lt', 30)
       });
@@ -122,7 +122,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age < 30)).toBe(true);
     });
 
-    test('lte - less than or equal', () => {
+    test('should using lte - less than or equal', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('age', 'lte', 30)
       });
@@ -131,7 +131,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age <= 30)).toBe(true);
     });
 
-    test('in - in an array', () => {
+    test('should using in - in an array', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('roles', 'in', ['admin'])
       });
@@ -140,7 +140,7 @@ describe("Filter", () => {
       expect(result.every(user => user.roles.includes('admin'))).toBe(true);
     });
 
-    test('nin - not in array', () => {
+    test('should using nin - not in array', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('roles', 'nin', ['admin'])
       });
@@ -149,7 +149,7 @@ describe("Filter", () => {
       expect(result.every(user => !user.roles.includes('admin'))).toBe(true);
     });
 
-    test('like - similar (case-sensitive)', () => {
+    test('should using like - similar (case-sensitive)', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('name', 'like', 'John')
       });
@@ -158,7 +158,7 @@ describe("Filter", () => {
       expect(result[0].name).toBe('John Doe');
     });
 
-    test('ilike - similar (case-insensitive)', () => {
+    test('should using ilike - similar (case-insensitive)', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('name', 'ilike', 'bob')
       });
@@ -169,7 +169,7 @@ describe("Filter", () => {
   })
 
   describe('Logical operations', () => {
-    test('and - logical and', () => {
+    test('should using and - logical and', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.and(
           FilterBuilder.field('age', 'gte', 30),
@@ -181,7 +181,7 @@ describe("Filter", () => {
       expect(result.every(user => user.age >= 30 && user.isActive)).toBe(true);
     });
 
-    test('or - logical or', () => {
+    test('should using or - logical or', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.or(
           FilterBuilder.field('age', 'lt', 30),
@@ -195,7 +195,7 @@ describe("Filter", () => {
   });
 
   describe('Sorting', () => {
-    test('Sorting by one field (asc)', () => {
+    test('should sorting by one field (asc)', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'age', direction: 'asc' }]
       });
@@ -205,7 +205,7 @@ describe("Filter", () => {
       expect(result[4].age).toBe(40);
     });
 
-    test('Sorting by one field (desc)', () => {
+    test('should sorting by one field (desc)', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'age', direction: 'desc' }]
       });
@@ -215,7 +215,7 @@ describe("Filter", () => {
       expect(result[4].age).toBe(25);
     });
 
-    test('Sorting by multiple fields', () => {
+    test('should sorting multiple fields', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('isActive', 'eq', true),
         orderBy: [
@@ -231,7 +231,7 @@ describe("Filter", () => {
   });
 
   describe('Pagination', () => {
-    test('Limit - quantity limitation', () => {
+    test('should limit - quantity limitation', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         limit: 2
@@ -242,7 +242,7 @@ describe("Filter", () => {
       expect(result[1].id).toBe(2);
     });
 
-    test('Offset - skipping elements', () => {
+    test('should offset - skipping elements', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         offset: 2
@@ -253,7 +253,7 @@ describe("Filter", () => {
       expect(result[2].id).toBe(5);
     });
 
-    test('Limit + Offset - pagination', () => {
+    test('should limit + offset - pagination', () => {
       const result = filter.filter(mockUsers, {
         orderBy: [{ field: 'id', direction: 'asc' }],
         limit: 2,
@@ -267,7 +267,7 @@ describe("Filter", () => {
   });
 
   describe('Edge Cases', () => {
-    test('Empty array on input', () => {
+    test('should empty array on input', () => {
       const result = filter.filter([], {
         where: FilterBuilder.eq('age', 30)
       });
@@ -275,7 +275,7 @@ describe("Filter", () => {
       expect(result).toHaveLength(0);
     });
 
-    test('Dates are compared correctly', () => {
+    test('should dates are compared correctly', () => {
       const result = filter.filter(mockUsers, {
         where: FilterBuilder.field('createdAt', 'gt', new Date('2023-02-01'))
       });

@@ -1,14 +1,40 @@
 import {
   AdvancedFilter,
-  ComparisonOperator,
-  FieldCondition,
+  CustomOperator,
   FilterCondition,
   IFilter,
-  operators,
+  OperatorFunctions,
 } from "../models";
 
 export class Filter<T> implements IFilter<T> {
-  private operators: Record<ComparisonOperator, (a: any, b: any) => boolean> = operators
+  private operators: OperatorFunctions = {
+    eq: (a, b) => a === b,
+    not: (a, b) => a !== b,
+    gt: (a, b) => a > b,
+    gte: (a, b) => a >= b,
+    lt: (a, b) => a < b,
+    lte: (a, b) => a <= b,
+    in: (a, b) => {
+      if (Array.isArray(a) && Array.isArray(b)) {
+        return a.some((item) => b.includes(item));
+      }
+      return Array.isArray(a) && a.includes(b);
+    },
+    nin: (a, b) => {
+      if (Array.isArray(a) && Array.isArray(b)) {
+        return !a.some((item) => b.includes(item));
+      }
+      return Array.isArray(a) && !a.includes(b);
+    },
+    like: (a, b) =>
+      typeof a === "string" && typeof b === "string" && a.includes(b),
+    ilike: (a, b) =>
+      typeof a === "string" &&
+      typeof b === "string" &&
+      a.toLowerCase().includes(b.toLowerCase()),
+  };
+  
+  private customOperators: OperatorFunctions = {};
 
   public filter(items: T[], filterConfig: AdvancedFilter<T>): T[] {
     let result = items;
@@ -34,9 +60,49 @@ export class Filter<T> implements IFilter<T> {
     return result;
   }
 
+  public registerCustomOperator<K extends keyof T>(
+    operator: CustomOperator,
+    handler: (fieldValue: K, filterValue: T[K]) => boolean
+  ): void {
+    if (this.customOperators[operator]) {
+      throw new Error(`This operator already exists: ${operator}`);
+    }
+    this.customOperators[operator] = handler;
+  }
+
+  public unregisterCustomOperator(operator: CustomOperator): void {
+    if (!this.customOperators[operator]) {
+      throw new Error(`Operator not found: ${operator}`);
+    }
+    delete this.customOperators[operator];
+  }
+
+  public getCustomOperators(): string[] {
+    return Object.keys(this.customOperators);
+  }
+
   private evaluateCondition(item: T, condition: FilterCondition<T>): boolean {
     if ("field" in condition) {
-      return this.evaluateFieldCondition(item, condition);
+      const fieldValue = item[condition.field];
+
+      const operatorFn = this.operators[condition.operator];
+      if (!operatorFn) {
+        throw new Error(`Unknown operator: ${condition.operator}`);
+      }
+
+      return operatorFn(fieldValue, condition.value);
+    }
+
+    if ("custom" in condition) {
+      const { field, operator, value } = condition.custom;
+      const fieldValue = item[field];
+
+      const operatorFn = this.customOperators[operator];
+      if (!operatorFn) {
+        throw new Error(`Unknown custom operator: ${operator}`);
+      }
+
+      return operatorFn(fieldValue, value);
     }
 
     if ("and" in condition) {
@@ -44,7 +110,7 @@ export class Filter<T> implements IFilter<T> {
         this.evaluateCondition(item, subCondition)
       );
     }
-    
+
     if ("or" in condition) {
       return condition.or.some((subCondition) =>
         this.evaluateCondition(item, subCondition)
@@ -54,25 +120,11 @@ export class Filter<T> implements IFilter<T> {
     return false;
   }
 
-  private evaluateFieldCondition(
-    item: T,
-    condition: FieldCondition<T>
-  ): boolean {
-    const fieldValue = item[condition.field];
-    const operator = this.operators[condition.operator];
-
-    if (!operator) {
-      throw new Error(`Unknown operator: ${condition.operator}`);
-    }
-
-    return operator(fieldValue, condition.value);
-  }
-
   private applySorting(
     items: T[],
     orderBy: Array<{ field: keyof T; direction: "asc" | "desc" }>
   ): T[] {
-    return [...items].sort((a, b) => {
+    return items.sort((a, b) => {
       for (const { field, direction } of orderBy) {
         const aValue = a[field];
         const bValue = b[field];

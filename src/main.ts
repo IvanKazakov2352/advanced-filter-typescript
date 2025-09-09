@@ -1,4 +1,13 @@
-import { AdvancedFilter, FilterCondition, OrCondition, AndCondition, FieldCondition } from './models';
+import { 
+  AdvancedFilter, 
+  FilterCondition, 
+  OrCondition, 
+  AndCondition, 
+  FieldCondition, 
+  CustomOperator, 
+  CustomFilterCondition, 
+  OperatorFunctions 
+} from './models';
 import { Filter, FilterBuilder } from './modules'
 
 export {
@@ -11,5 +20,8 @@ export type {
   FilterCondition,
   OrCondition,
   AndCondition,
-  FieldCondition
+  FieldCondition,
+  CustomOperator,
+  CustomFilterCondition,
+  OperatorFunctions
 }

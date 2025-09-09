@@ -1,12 +1,22 @@
 import {
   AndCondition,
   ComparisonOperator,
+  CustomFilterCondition,
+  CustomOperator,
   FieldCondition,
   FilterCondition,
   OrCondition,
 } from "../models";
 
 export class FilterBuilder {
+  public static custom = <T, K extends keyof T, V>(
+    field: K,
+    operator: CustomOperator,
+    value: V
+  ): CustomFilterCondition<T> => ({
+    custom: { field, operator, value }
+  });
+
   public static field = <T, K extends keyof T>(
     field: K,
     operator: ComparisonOperator,
