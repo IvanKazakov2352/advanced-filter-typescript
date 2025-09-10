@@ -130,8 +130,25 @@ describe("Custom operators", () => {
       ),
     });
 
+    complexUserFilter.unregisterCustomOperator("hasPreference");
+    expect(complexUserFilter.getCustomOperators()).toHaveLength(0);
     expect(result).toHaveLength(2);
     expect(result[0].id).toBe(1);
     expect(result[1].id).toBe(3);
+  });
+
+  test("should using length operator", () => {
+    filter.registerCustomOperator('length', (field, value) => 
+      Array.isArray(field) && field.length === value
+    )
+
+    const result = filter.filter(mockUsers, {
+      where: FilterBuilder.custom("roles", "length", 2)
+    })
+
+    filter.unregisterCustomOperator("length");
+
+    expect(result).toHaveLength(2);
+    expect(filter.getCustomOperators()).toHaveLength(0);
   });
 });
