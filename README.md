@@ -108,3 +108,42 @@ const result = filter.filter(mockUsers, {
 
 console.log(result)
 ```
+
+## Example 5
+```typescript
+// Example 5 custom operators length
+const filter = new Filter<User>();
+
+filter.registerCustomOperator('length', (field, value) => 
+  Array.isArray(field) && field.length === value
+)
+
+const result = filter.filter(mockUsers, {
+  where: FilterBuilder.custom("roles", "length", 2),
+  orderBy: [{ field: 'age', direction: 'asc' }],
+});
+
+console.log(result)
+```
+
+## Example 6
+```typescript
+// Example 6 create custom operator between and unregister
+const filter = new Filter<User>();
+
+filter.registerCustomOperator("between", (fieldValue, filterValue) => {
+  return (
+    typeof fieldValue === "number" &&
+    fieldValue >= filterValue[0] &&
+    fieldValue <= filterValue[1]
+  );
+});
+
+const result = filter.filter(mockUsers, {
+  where: FilterBuilder.custom("age", "between", [35, 40]),
+});
+
+console.log(result)
+
+filter.unregisterCustomOperator("between");
+```
